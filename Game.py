@@ -10,6 +10,7 @@ class Game:
         self.score = 0
         self.level = 1
         self.root = root
+        self.current_score = 0
         self.root.title("Pig - The Game")
         self.root.config(bg="#efe1d4")
         self.root.geometry("400x400")
@@ -42,17 +43,25 @@ class Game:
         result_label = tk.Label(new_window, text="Roll the dice to see the result", font=("Arial", 14))
         result_label.pack(pady=10)
 
+        # Create a label to display the result of the current round
+        current_score_label = tk.Label(new_window, text="asda", font=("Arial", 14))
+        current_score_label.pack(pady=10)
+
         # Function to roll the dice and update the result label
         def roll_and_display_result():
             result = Dice.roll_the_dice()  # Roll the dice
             Game.player_vs_computer(result)
+            current_score = Game.handling_result_of_dice(self, result)
             result_label.config(text=f"Result: {result}")  # Update the label with the result
+            current_score_label.config(text=f"Current score: {current_score}")
 
         # Create a button to roll the dice
         roll_dice_button = tk.Button(new_window, text="Roll the dice", command=roll_and_display_result)
         roll_dice_button.pack(pady=10)
-
-
+ 
+    def handling_result_of_dice(self, result):
+        self.score += result
+        return self.score
 
     def end_game(self):
         """End the current game."""
